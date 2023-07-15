@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import MainRoutes from "./components/routes/MainRoutes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+  const [contacts, setContacts] = useState([]);
+
+  console.log(contacts);
+
+  function addContact(newContact) {
+    setContacts([...contacts, newContact]);
+  }
+
+  function deleteContact(id) {
+    const filtered = contacts.filter((item) => item.id !== id);
+
+    setContacts(filtered);
+  }
+
+  function editContact(contactEdited) {
+    const newArr = contacts.map((item) => {
+      if (item.id === contactEdited.id) {
+        return contactEdited;
+      } else {
+        return item;
+      }
+    });
+    setContacts(newArr);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MainRoutes
+      editContact={editContact}
+      deleteContact={deleteContact}
+      contacts={contacts}
+      addContact={addContact}
+    />
   );
 }
 
